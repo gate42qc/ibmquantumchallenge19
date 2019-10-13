@@ -21,6 +21,12 @@ def get_ibm_graph() -> Graph:
     ])
 
 
+def get_hackathon_circuit():
+    graph = get_ibm_graph()
+    qc = run_coloring_grover(graph, 5)
+    return qc
+
+
 def get_ibm_cost():
     graph = get_ibm_graph()
     qc = run_coloring_grover(graph, 5)
