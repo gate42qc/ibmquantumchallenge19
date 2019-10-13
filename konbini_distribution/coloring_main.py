@@ -5,6 +5,8 @@ from grover import grover
 from utils import run_and_print_results, run_and_print_results_state
 from graph import Graph, Konbini
 
+from konbini_distribution.graph_examples import get_5_vertex_graph, get_4_vertex_graph
+
 
 def run_coloring_grover(graph: Graph, iter_count: int):
     state_size = len(graph.vertices) * graph.color_bit_length
@@ -38,17 +40,10 @@ def test_state_init(graph: Graph):
 
 
 if __name__ == '__main__':
-    small_graph = Graph(4, [
-        (0, 1),
-        (1, 2),
-        (2, 3),
-        (3, 0),
-        (0, 2),
-    ], [
-        (Konbini.get_by_name('A'), 0),
-        (Konbini.get_by_name('D'), 1),
-    ])
-    qc = run_coloring_grover(small_graph, 5)
+    graph = get_4_vertex_graph()
+    qc = run_coloring_grover(graph, 2)
+    print(graph.groups)
+    print(graph.external_edges)
     results = run_and_print_results(qc)
     most_probable = list(results.keys())
     valid_total_solutions = 0
@@ -57,7 +52,7 @@ if __name__ == '__main__':
 
     for color_bitstring in most_probable:
         color_bitstring_corrected = color_bitstring[::-1]
-        colored = small_graph.get_colored(color_bitstring_corrected)
+        colored = graph.get_colored(color_bitstring_corrected)
         if not colored.is_coloring_valid():
             found_invalid = True
             print(f"Not valid coloring: {color_bitstring_corrected} with count of {results[color_bitstring]}")
