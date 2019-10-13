@@ -19,7 +19,9 @@ def get_ibm_cost():
 
     cost = get_cost(qc)
 
-    print(f"Number of ancilla needed: {graph.get_ancilla_size_needed()}")
+    total_qubits = graph.get_ancilla_size_needed() + len(graph.vertices) * graph.color_bit_length
+
+    print(f"Number of qubits needed: {total_qubits}")
     print(f"Cost was: {cost}")
 
 
