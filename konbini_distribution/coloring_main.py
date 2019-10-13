@@ -5,7 +5,7 @@ from grover import grover
 from utils import run_and_print_results, run_and_print_results_state
 from graph import Graph, Konbini
 
-from konbini_distribution.graph_examples import get_5_vertex_graph, get_4_vertex_graph
+from graph_examples import get_5_vertex_graph, get_4_vertex_graph
 
 
 def run_coloring_grover(graph: Graph, iter_count: int):
@@ -39,8 +39,7 @@ def test_state_init(graph: Graph):
     return run_and_print_results_state(qc)
 
 
-if __name__ == '__main__':
-    graph = get_4_vertex_graph()
+def run_test_for_graph(graph: Graph):
     qc = run_coloring_grover(graph, 2)
     results = run_and_print_results(qc)
     most_probable = list(results.keys())
@@ -53,7 +52,7 @@ if __name__ == '__main__':
         colored = graph.get_colored(color_bitstring_corrected)
         if not colored.is_coloring_valid():
             found_invalid = True
-            print(f"Not valid coloring: {color_bitstring_corrected} with count of {results[color_bitstring]}")
+            # print(f"Not valid coloring: {color_bitstring_corrected} with count of {results[color_bitstring]}")
         else:
             valid_total_solutions += 1
 
@@ -62,3 +61,8 @@ if __name__ == '__main__':
 
     print(f"Total valid solutions: {valid_total_solutions}")
     print(f"From which algorithm found: {number_of_valid_states_found}")
+
+
+if __name__ == '__main__':
+    run_test_for_graph(get_4_vertex_graph())
+    run_test_for_graph(get_5_vertex_graph())
