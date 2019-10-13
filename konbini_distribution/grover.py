@@ -5,7 +5,7 @@ from utils import create_uniform_superposition
 
 StateInitializerType = Callable[[int], QuantumCircuit]
 # oracle(state_register_size, ancilla_register_size): QuantumCircuit
-OracleType = Callable[[int], QuantumCircuit]
+OracleType = Callable[[], QuantumCircuit]
 
 
 def grover(state_register: QuantumRegister, ancilla_register: QuantumRegister, init_state: StateInitializerType,
@@ -22,7 +22,7 @@ def grover(state_register: QuantumRegister, ancilla_register: QuantumRegister, i
     qc.h(target)
 
     for i in range(iter_count):
-        oracle_instructions = oracle(len(state_register))
+        oracle_instructions = oracle()
         qc.append(oracle_instructions, state_register[:] + ancilla_register[:])
 
         qc.append(init_instructions.inverse(), state_register)

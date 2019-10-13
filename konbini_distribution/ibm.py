@@ -28,10 +28,12 @@ def get_hackathon_circuit():
 
 
 def get_ibm_cost():
-    qc = get_hackathon_circuit()
+    graph = get_ibm_graph()
+    qc = run_coloring_grover(graph, 5)
 
     cost = get_cost(qc)
 
+    print(f"Number of ancilla needed: {graph.get_ancilla_size_needed()}")
     print(f"Cost was: {cost}")
 
 

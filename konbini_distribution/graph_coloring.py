@@ -58,7 +58,7 @@ def get_konbini_oracle(graph: Graph) -> OracleType:
 
         return qc
 
-    def oracle(state_register_size: int) -> QuantumCircuit:
+    def oracle() -> QuantumCircuit:
         target = target_register[0]
         all_ancilla_qubits = group_edge_results[:] + all_group_results[:] + mct_ancilla[:] + target_register[:]
 

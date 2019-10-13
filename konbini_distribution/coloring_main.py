@@ -40,7 +40,7 @@ def test_state_init(graph: Graph):
 
 
 if __name__ == '__main__':
-    graph = get_5_vertex_graph()
+    graph = get_4_vertex_graph()
     qc = run_coloring_grover(graph, 2)
     results = run_and_print_results(qc)
     most_probable = list(results.keys())
