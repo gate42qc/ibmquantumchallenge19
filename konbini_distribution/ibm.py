@@ -1,24 +1,10 @@
 from coloring_main import run_coloring_grover
 from graph import Graph, Konbini
+from qiskit import QuantumCircuit, QuantumRegister
 from utils import get_cost
+from math import pi
 
-
-def get_ibm_graph() -> Graph:
-    return Graph(7, [
-        (0, 1), (0, 2), (0, 3), (1, 3),
-        (1, 4), (2, 3), (2, 5), (2, 6),
-        (3, 4), (3, 5), (3, 6),
-        (4, 6), (5, 6),
-    ], [
-        (Konbini.get_by_name('A'), 0),
-        (Konbini.get_by_name('B'), 1),
-        (Konbini.get_by_name('A'), 2),
-        (Konbini.get_by_name('C'), 2),
-        (Konbini.get_by_name('A'), 3),
-        (Konbini.get_by_name('B'), 4),
-        (Konbini.get_by_name('D'), 5),
-        (Konbini.get_by_name('D'), 6)
-    ])
+from graph_examples import get_ibm_graph
 
 
 def get_hackathon_circuit():
@@ -38,5 +24,10 @@ def get_ibm_cost():
 
 
 if __name__ == '__main__':
+    # reg = QuantumRegister(2)
+    # qc = QuantumCircuit(reg)
+    # qc.crz(pi, 0, 1)
+    # cost = get_cost(qc)
+    # print(f"Cost was: {cost}")
     get_ibm_cost()
 

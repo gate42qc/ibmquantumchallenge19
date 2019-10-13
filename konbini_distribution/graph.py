@@ -57,6 +57,8 @@ class Vertex:
         return state_register[self.number * self.graph.color_bit_length:self.number * self.graph.color_bit_length + self.graph.color_bit_length]
 
     def __str__(self):
+        if self.number is None:
+            return f"ExternalVertex {self.konbini.name}"
         return f"Vertex {self.number}"
 
     def __repr__(self):
@@ -73,7 +75,7 @@ class Graph:
     vertices: List[Vertex]
     edges: List[Tuple[Vertex, Vertex]]
     external_edges: List[Tuple[Konbini, Vertex]]
-    groups: List[Tuple[Vertex, List[Vertex]]]
+    groups: List[List[Tuple[Vertex, Vertex]]]
 
     def __init__(self, number_of_vertices: int, edges: List[Tuple[int, int]],
                  external_edges: List[Tuple[Konbini, int]] = None):
@@ -96,7 +98,7 @@ class Graph:
                 self.largest_number_of_neighbours = len(vertex.neighbours)
 
             if len(vertex.neighbours) > 0:
-                self.groups.append((vertex, [neighbour for neighbour in vertex.neighbours]))
+                self.groups.append([(vertex, neighbour) for neighbour in vertex.neighbours])
 
         self.largest_group_size = self.largest_number_of_neighbours
 
@@ -117,6 +119,32 @@ class Graph:
             self.edges.append((self.vertices[index], external_vertex))
         else:
             self.external_edges.append((konbini, self.vertices[index]))
+
+    def redefine_groups(self, groups: List[List[Tuple[int, Union[int, str]]]]):
+        new_groups = []
+        largest_group_size = 0
+
+        for group in groups:
+            new_group = []
+            for edge in group:
+                start, end = edge
+
+                if isinstance(end, str):
+                    for neighbour in self.vertices[start].neighbours:
+                        if neighbour.is_external() and neighbour.konbini.name == end:
+                            new_group.append((self.vertices[start], neighbour))
+                            break
+                    else:
+                        raise ValueError()
+                else:
+                    new_group.append((self.vertices[start], self.vertices[end]))
+
+            new_groups.append(new_group)
+            if len(new_group) > largest_group_size:
+                largest_group_size = len(new_group)
+
+        self.groups = new_groups
+        self.largest_group_size = largest_group_size
 
     def get_all_possible_state_preparing_circuit_initializer(self) -> StateInitializerType:
         def initializer(size: int) -> QuantumCircuit:
@@ -156,8 +184,9 @@ class Graph:
     def get_ancilla_size_needed(self):
         group_edge_results_size = self.largest_group_size
         all_group_results_size = len(self.groups)
-        mct_ancilla_size = group_edge_results_size - 2
+        mct_ancilla_size = max(group_edge_results_size, all_group_results_size) - 2
         target_register_size = 1
+
         return group_edge_results_size + all_group_results_size + mct_ancilla_size + target_register_size
 
     def color(self, color_bitstring: str):
