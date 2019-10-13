@@ -9,14 +9,14 @@ from konbini_distribution.graph import Vertex
 
 
 def get_konbini_oracle(graph: Graph) -> OracleType:
-    def get_all_edges_comparing_circuit(state_register_size: int, vertex1: Vertex, connected_vertices: List[Vertex]):
-        state_register = QuantumRegister(state_register_size)
+    state_register = QuantumRegister(len(graph.vertices) * graph.color_bit_length)
 
-        group_edge_results = QuantumRegister(graph.largest_group_size)
-        all_group_results = QuantumRegister(len(graph.groups))
-        mct_ancilla = QuantumRegister(len(group_edge_results) - 2)
-        target_register = QuantumRegister(1)
+    group_edge_results = QuantumRegister(graph.largest_group_size)
+    all_group_results = QuantumRegister(len(graph.groups))
+    mct_ancilla = QuantumRegister(len(group_edge_results) - 2)
+    target_register = QuantumRegister(1)
 
+    def get_all_edges_comparing_circuit(vertex1: Vertex, connected_vertices: List[Vertex]):
         qc = QuantumCircuit(state_register, group_edge_results, all_group_results, mct_ancilla, target_register,
                             name="Edge comparison")
 
@@ -36,14 +36,7 @@ def get_konbini_oracle(graph: Graph) -> OracleType:
 
         return qc
 
-    def get_all_groups_comparing_circuit(state_register_size: int, ancilla_register_size: int):
-        state_register = QuantumRegister(state_register_size)
-
-        group_edge_results = QuantumRegister(graph.largest_group_size)
-        all_group_results = QuantumRegister(len(graph.groups))
-        mct_ancilla = QuantumRegister(len(group_edge_results) - 2)
-        target_register = QuantumRegister(1)
-
+    def get_all_groups_comparing_circuit():
         all_registers = state_register[:] + group_edge_results[:] + all_group_results[:] + mct_ancilla[:] + target_register[:]
 
         qc = QuantumCircuit(state_register, group_edge_results, all_group_results, mct_ancilla, target_register,
@@ -51,7 +44,7 @@ def get_konbini_oracle(graph: Graph) -> OracleType:
 
         for group_index, group in enumerate(graph.groups):
             vertex1, connected_vertices = group
-            edges_comparing_circuit = get_all_edges_comparing_circuit(state_register_size, vertex1, connected_vertices)
+            edges_comparing_circuit = get_all_edges_comparing_circuit(vertex1, connected_vertices)
 
             qc.append(edges_comparing_circuit, all_registers)
 
@@ -65,20 +58,14 @@ def get_konbini_oracle(graph: Graph) -> OracleType:
 
         return qc
 
-    def oracle(state_register_size: int, ancilla_register_size: int) -> QuantumCircuit:
-        state_register = QuantumRegister(state_register_size)
-        group_edge_results = QuantumRegister(graph.largest_group_size)
-        all_group_results = QuantumRegister(len(graph.groups))
-        mct_ancilla = QuantumRegister(len(group_edge_results) - 2)
-        target_register = QuantumRegister(1)
+    def oracle(state_register_size: int) -> QuantumCircuit:
         target = target_register[0]
         all_ancilla_qubits = group_edge_results[:] + all_group_results[:] + mct_ancilla[:] + target_register[:]
 
         qc = QuantumCircuit(state_register, group_edge_results, all_group_results, mct_ancilla, target_register,
                             name="Oracle")
 
-        # todo: fix register sharing
-        compare_all_vertices_circuit = get_all_groups_comparing_circuit(state_register_size, 1)
+        compare_all_vertices_circuit = get_all_groups_comparing_circuit()
         apply_to_register = state_register[:] + all_ancilla_qubits
 
         qc.append(compare_all_vertices_circuit, apply_to_register)
