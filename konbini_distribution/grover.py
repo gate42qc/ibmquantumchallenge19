@@ -1,7 +1,6 @@
-from typing import List, Callable, Tuple
+from typing import Callable
 from qiskit import QuantumCircuit, QuantumRegister
 from utils import flip_all
-from utils import create_uniform_superposition
 
 StateInitializerType = Callable[[int], QuantumCircuit]
 # oracle(state_register_size, ancilla_register_size): QuantumCircuit

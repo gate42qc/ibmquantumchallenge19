@@ -1,8 +1,5 @@
 from coloring_main import run_coloring_grover
-from graph import Graph, Konbini
-from qiskit import QuantumCircuit, QuantumRegister
 from utils import get_cost
-from math import pi
 
 from graph_examples import get_ibm_graph
 

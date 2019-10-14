@@ -20,6 +20,10 @@ def run_coloring_grover(graph: Graph, iter_count: int):
                                  get_konbini_oracle(graph), iter_count)
 
     qc.append(grover_instructions, state_register[:] + ancilla_register[:])
+
+    finalizer_circuit = graph.get_state_finalization_circuit()
+    qc.append(finalizer_circuit, state_register[:])
+
     qc.measure(state_register, results_register)
 
     return qc

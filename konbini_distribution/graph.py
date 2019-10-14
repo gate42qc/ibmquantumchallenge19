@@ -1,4 +1,4 @@
-from typing import List, Tuple, Union
+from typing import List, Tuple, Union, Callable
 
 from qiskit import QuantumRegister, QuantumCircuit
 from qiskit.circuit import Qubit
@@ -76,6 +76,7 @@ class Graph:
     edges: List[Tuple[Vertex, Vertex]]
     external_edges: List[Tuple[Konbini, Vertex]]
     groups: List[List[Tuple[Vertex, Vertex]]]
+    state_finalizer = None
 
     def __init__(self, number_of_vertices: int, edges: List[Tuple[int, int]],
                  external_edges: List[Tuple[Konbini, int]] = None):
@@ -216,3 +217,13 @@ class Graph:
                           )
         new_graph.color(color_bitstring)
         return new_graph
+
+    def set_state_finalizer(self, finalizer: Callable[['Graph'], QuantumCircuit]):
+        self.state_finalizer = finalizer
+
+    def get_state_finalization_circuit(self):
+        if self.state_finalizer:
+            return self.state_finalizer(self)
+        else:
+            register = QuantumRegister(len(self.vertices)* self.color_bit_length)
+            return QuantumCircuit(register)

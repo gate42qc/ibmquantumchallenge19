@@ -41,14 +41,30 @@ def get_check_same_color_circuit(color_bitstring_size: int) -> QuantumCircuit:
     if len(vertex1) != len(vertex2):
         raise ValueError()
 
-    for i in range(len(vertex1)):
+    for i in range(color_bitstring_size):
         qc.cx(vertex1[i], vertex2[i])
 
-    for i in range(len(vertex2)):
+    for i in range(color_bitstring_size):
         qc.x(vertex2[i])
 
     qc.ccx(*vertex2, target)
     qc.x(target)
+
+    return qc
+
+
+def get_check_same_color_circuit_1(color_bitstring_size: int) -> QuantumCircuit:
+    vertex1 = QuantumRegister(color_bitstring_size)
+    vertex2 = QuantumRegister(color_bitstring_size)
+    qc = QuantumCircuit(vertex1, vertex2)
+    if len(vertex1) != len(vertex2):
+        raise ValueError()
+
+    for i in range(color_bitstring_size):
+        qc.cx(vertex1[i], vertex2[i])
+
+    for i in range(color_bitstring_size):
+        qc.x(vertex2[i])
 
     return qc
 
@@ -127,7 +143,7 @@ def generate_contest_submission_file(qc, results):
     name = 'Gate42'
     # Please indicate the number of times you have made a submission so far.
     # For example, if it's your 1st time to submit your answer, write 1. If it's your 5th time to submit your answer, write 5.
-    times = '3'
+    times = '4'
 
     import json
     from qiskit.transpiler import PassManager
