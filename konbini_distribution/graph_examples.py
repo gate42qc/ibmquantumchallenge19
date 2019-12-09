@@ -79,6 +79,8 @@ def get_ibm_graph() -> Graph:
 
     graph.set_state_finalizer(get_finalizer_circuit)
 
+    # by redefining groups you can reduce the cost, here we experiment with different groupings
+
     # graph.redefine_groups([
     #     [(0, 1), (0, 'A'), (6, 4), (6, 5)],
     #     [(2, 0), (2, 5), (2, 6), (2, 'A'), (1, 4)],

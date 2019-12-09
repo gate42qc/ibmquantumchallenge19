@@ -121,6 +121,12 @@ class Graph:
         else:
             self.external_edges.append((konbini, self.vertices[index]))
 
+    """
+    Because we don't have large number of qubits, we cannot run our oracle for all edges at once
+    thus we divide our edges into groups and we do our calculations for each group and then combine them.
+    But the choice of the groups can have impact on the cost of the algorithm.
+    For that reason here we define a method that allows users to define custom groups of edges.
+    """
     def redefine_groups(self, groups: List[List[Tuple[int, Union[int, str]]]]):
         new_groups = []
         largest_group_size = 0

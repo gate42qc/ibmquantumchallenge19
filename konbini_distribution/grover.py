@@ -3,7 +3,6 @@ from qiskit import QuantumCircuit, QuantumRegister
 from utils import flip_all
 
 StateInitializerType = Callable[[int], QuantumCircuit]
-# oracle(state_register_size, ancilla_register_size): QuantumCircuit
 OracleType = Callable[[], QuantumCircuit]
 
 
@@ -34,7 +33,5 @@ def grover(state_register: QuantumRegister, ancilla_register: QuantumRegister, i
         flip_all(qc, state_register)
         # create_uniform_superposition(qc, state_register[:])
         qc.append(init_instructions, state_register)
-
-    # print("Grover part: \n", qc)
 
     return qc
