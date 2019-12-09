@@ -1,10 +1,9 @@
 from typing import List, Tuple, Union, Callable
-
 from qiskit import QuantumRegister, QuantumCircuit
 from qiskit.circuit import Qubit
-
 from grover import StateInitializerType
-from utils import create_uniform_superposition, get_superposition_without_state_circuit
+from utils import create_uniform_superposition
+from not_n_cirqs import get_superposition_without_state_circuit
 
 KONBINI_NAMES = ['A', 'B', 'C', 'D']
 COLORS = ['RED', 'BLUE', 'GREEN', 'YELLOW']

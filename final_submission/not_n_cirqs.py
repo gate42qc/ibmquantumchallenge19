@@ -58,3 +58,15 @@ def get_not_11_state():
 
     return qc
 
+
+def get_superposition_without_state_circuit(state: str):
+    if state == "00":
+        return get_not_00_state()
+    elif state == "01":
+        return get_not_01_state()
+    elif state == "10":
+        return get_not_10_state()
+    elif state == "11":
+        return get_not_11_state()
+
+    raise ValueError()

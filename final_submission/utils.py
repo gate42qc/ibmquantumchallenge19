@@ -1,15 +1,11 @@
 import operator
 from typing import List
 from collections import OrderedDict
-
 from qiskit import QuantumCircuit, Aer, execute, QuantumRegister
 from qiskit.circuit import Qubit
-
 from qiskit.transpiler import PassManager
 from qiskit.transpiler.passes import Unroller
 from qiskit import IBMQ
-
-from not_n_cirqs import get_not_00_state, get_not_01_state, get_not_10_state, get_not_11_state
 
 
 def create_uniform_superposition(circuit: QuantumCircuit, register: List[Qubit]):
@@ -53,22 +49,6 @@ def get_check_same_color_circuit(color_bitstring_size: int) -> QuantumCircuit:
     return qc
 
 
-def get_check_same_color_circuit_1(color_bitstring_size: int) -> QuantumCircuit:
-    vertex1 = QuantumRegister(color_bitstring_size)
-    vertex2 = QuantumRegister(color_bitstring_size)
-    qc = QuantumCircuit(vertex1, vertex2)
-    if len(vertex1) != len(vertex2):
-        raise ValueError()
-
-    for i in range(color_bitstring_size):
-        qc.cx(vertex1[i], vertex2[i])
-
-    for i in range(color_bitstring_size):
-        qc.x(vertex2[i])
-
-    return qc
-
-
 def run_and_print_results(qc: QuantumCircuit):
     simulator = Aer.get_backend('qasm_simulator')
     job = execute(qc, simulator, shots=1000)
@@ -98,23 +78,7 @@ def get_cost(qc: QuantumCircuit) -> int:
     # new_circuit.draw(output='mpl')
     counts = new_circuit.count_ops()
     cost = counts["u3"] + 10 * counts['cx']
-
-    print(counts)
-
     return cost
-
-
-def get_superposition_without_state_circuit(state: str):
-    if state == "00":
-        return get_not_00_state()
-    elif state == "01":
-        return get_not_01_state()
-    elif state == "10":
-        return get_not_10_state()
-    elif state == "11":
-        return get_not_11_state()
-
-    raise ValueError()
 
 
 def submit_job(qc: QuantumCircuit):

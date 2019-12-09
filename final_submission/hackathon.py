@@ -1,17 +1,16 @@
-from coloring_main import run_coloring_grover
+from main import run_coloring_grover
 from utils import get_cost
-
-from graph_examples import get_ibm_graph
+from hackathon_graph import get_hackathon_graph
 
 
 def get_hackathon_circuit():
-    graph = get_ibm_graph()
+    graph = get_hackathon_graph()
     qc = run_coloring_grover(graph, 5)
     return qc
 
 
-def get_ibm_cost():
-    graph = get_ibm_graph()
+def get_cost_for_hackathon_graph():
+    graph = get_hackathon_graph()
     qc = run_coloring_grover(graph, 5)
 
     cost = get_cost(qc)
@@ -23,10 +22,5 @@ def get_ibm_cost():
 
 
 if __name__ == '__main__':
-    # reg = QuantumRegister(2)
-    # qc = QuantumCircuit(reg)
-    # qc.crz(pi, 0, 1)
-    # cost = get_cost(qc)
-    # print(f"Cost was: {cost}")
-    get_ibm_cost()
+    get_cost_for_hackathon_graph()
 

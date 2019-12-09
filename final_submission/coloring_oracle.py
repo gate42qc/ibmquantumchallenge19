@@ -1,10 +1,8 @@
 from typing import List, Tuple
-
 from qiskit import QuantumCircuit, QuantumRegister
 from graph import Graph
 from grover import OracleType
 from utils import get_check_same_color_circuit
-
 from graph import Vertex
 
 

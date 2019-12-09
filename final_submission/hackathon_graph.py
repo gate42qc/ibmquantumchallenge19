@@ -2,46 +2,7 @@ from graph import Graph, Konbini
 from qiskit import QuantumCircuit, QuantumRegister
 
 
-def get_4_vertex_graph():
-    return Graph(4, [
-        (0, 1),
-        (1, 2),
-        (2, 3),
-        (3, 0),
-        (0, 2),
-    ], [
-        (Konbini.get_by_name('A'), 0),
-        (Konbini.get_by_name('D'), 1),
-    ])
-
-
-def get_5_vertex_graph():
-    graph = Graph(5, [
-        (0, 1),
-        (0, 2),
-        (0, 4),
-        (1, 2),
-        (1, 3),
-        (3, 4),
-    ], [
-        (Konbini.get_by_name('A'), 1),
-        (Konbini.get_by_name('A'), 2),
-        (Konbini.get_by_name('B'), 2),
-        (Konbini.get_by_name('B'), 3),
-        (Konbini.get_by_name('C'), 0),
-    ])
-
-    # graph.redefine_groups([
-    #     [(0, 1), (0, 2), (0, 4)],
-    #     [(1, 2), (1, 3), (1, 'A')],
-    #     [(2, 'A')],
-    #     [(3, 4)],
-    # ])
-
-    return graph
-
-
-def get_ibm_graph() -> Graph:
+def get_hackathon_graph() -> Graph:
     KONBINI_A = Konbini.get_by_name('A')
     KONBINI_B = Konbini.get_by_name('B')
     KONBINI_C = Konbini.get_by_name('C')
