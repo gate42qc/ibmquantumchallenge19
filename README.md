@@ -20,8 +20,8 @@ Upon your request, all four konbini chains discussed with each other and agreed 
 
 Can you come up with a plan that satisfies the above conditions? (For details of the problem, visit [final challenge](https://github.com/quantum-challenge/2019/tree/master/problems/final)).
 
-Answers and comments by judges: [https://github.com/quantum-challenge/2019/blob/master/problems/final/answer_and_comment_by_judges_en.ipynb].
-Top 10 submissions: [https://github.com/quantum-challenge/2019/tree/master/top%20ten%20submissions].
+Answers and comments by judges: https://github.com/quantum-challenge/2019/blob/master/problems/final/answer_and_comment_by_judges_en.ipynb.
+Top 10 submissions: https://github.com/quantum-challenge/2019/tree/master/top%20ten%20submissions.
 
 # Our solution
 
@@ -37,30 +37,30 @@ __Edges:__ \[(A,0), (A,2), (A,3), (0,1), (0,2), (0,3), (1,B), (1,3), (1,4), (B,4
 
 Colors of vertexes A, B, C and D are fixed and can be though of as external constrains on a smaller graph without this edges so we will not represent those edges in our graph.
 
-We will use two qubits to represent each district. The state of the pair of qubits encodes the konbini code. E.g. if the pair of qubits representing the 4th district is $10$, then there is a konbini store from the chain C in this district.
+We will use two qubits to represent each district. The state of the pair of qubits encodes the konbini code. E.g. if the pair of qubits representing the 4th district is `10`, then there is a konbini store from the chain C in this district.
 
 Then algorithm would look like this: 
 
-|<p align=\"left\">**Step**  |<p align=\"left\">**Content** |
+|**Step**  |**Content** |
 | ---     |--- |
-| Step1 |<p align=\"left\">Create a superposition of inputs|
-| Step2 |<p align=\"left\">Build an oracle according to the constraints of the problem |
-| Step3 |<p align=\"left\">Diffusion |
-| Step4 |<p align=\"left\">Measurement|
+| Step1 |Create a superposition of inputs |
+| Step2 |Build an oracle according to the constraints of the problem |
+| Step3 |Diffusion |
+| Step4 |Measurement |
 
 According to the challenge statement, we are given a 32-qubit machine (a simulator), so we have an upper bound on the number of qubits we can use to solve the problem. Here is a short description of how we have used the 32 qubits of the given machine for our solution.
 
 | Qubit(s) | Type | Usage   |
 |------|------|------|
-|  \\[0-13\\]  | state | to represent the konbinis in districts 0 to 6 |
-| \\[14-19\\] | ancilla | to store results of color check within an edge group \\* |
-| \\[20-22\\] | ancilla | to store the combined result for each group of edges |
-| \\[23-26\\] | ancilla | ancilla qubits for _mct_ gates used in the circuit \\*\\*|
+|  \[0-13\]  | state | to represent the konbinis in districts 0 to 6 |
+| \[14-19\] | ancilla | to store results of color check within an edge group \* |
+| \[20-22\] | ancilla | to store the combined result for each group of edges |
+| \[23-26\] | ancilla | ancilla qubits for _mct_ gates used in the circuit \*\*|
 | 27 | ancilla | the target qubit for oracle phase flip |
 
-\\* In our oracle we process the graph edges in groups, so that we can fit in the 32 qubit limit of the challenge.
+\* In our oracle we process the graph edges in groups, so that we can fit in the 32 qubit limit of the challenge.
 
-\\*\\* The _mct_ gate with $N$ controls ($N > 2$) requires at least $N-2$ ancila qubits.
+\*\* The _mct_ gate with $N$ controls ($N > 2$) requires at least $N-2$ ancila qubits.
 
 You can read more detailed explanation of our solution [here](https://github.com/quantum-challenge/2019/blob/master/top%20ten%20submissions/Gate42/Final%20challenge%20write%20up%20-%20Gate42.ipynb).
 
