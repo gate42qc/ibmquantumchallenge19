@@ -21,6 +21,7 @@ Upon your request, all four konbini chains discussed with each other and agreed 
 Can you come up with a plan that satisfies the above conditions? (For details of the problem, visit [final challenge](https://github.com/quantum-challenge/2019/tree/master/problems/final)).
 
 Answers and comments by judges: https://github.com/quantum-challenge/2019/blob/master/problems/final/answer_and_comment_by_judges_en.ipynb.
+
 Top 10 submissions: https://github.com/quantum-challenge/2019/tree/master/top%20ten%20submissions.
 
 # Our solution
@@ -60,7 +61,7 @@ According to the challenge statement, we are given a 32-qubit machine (a simulat
 
 \* In our oracle we process the graph edges in groups, so that we can fit in the 32 qubit limit of the challenge.
 
-\*\* The _mct_ gate with $N$ controls ($N > 2$) requires at least $N-2$ ancila qubits.
+\*\* The _mct_ gate with `N` controls (`N > 2`) requires at least `N-2` ancila qubits.
 
 You can read more detailed explanation of our solution [here](https://github.com/quantum-challenge/2019/blob/master/top%20ten%20submissions/Gate42/Final%20challenge%20write%20up%20-%20Gate42.ipynb).
 
