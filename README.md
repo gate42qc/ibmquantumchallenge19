@@ -67,11 +67,11 @@ You can read more detailed explanation of our solution [here](https://github.com
 
 # Usage
 
-To use our code for other graph coloring problems you can just create an instance of the Graph class from graph.py
-and use the run_coloring_grover function from main.py which will return a qiskit QuantumCircuit object which can be run
-as any other QuantumCircuit.
+To use our code for other graph coloring problems you can just create an instance of the `Graph` class from `graph.py`
+and use the `run_coloring_grover` function from `main.py` which will return a qiskit `QuantumCircuit` object which can be run
+like any other `QuantumCircuit`.
 
-Examples of usage can be found in tests.py file.
+Examples of usage can be found in `tests.py` file.
 
-Code for running the algorithm with actual challenge graph can be found in job_submission Jupyter notebook file.
+Code for running the algorithm with actual challenge graph can be found in `job_submission` Jupyter notebook file.
 
